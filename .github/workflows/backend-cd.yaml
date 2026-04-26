@@ -92,5 +92,6 @@ jobs:
           ECR_REGISTRY: ${{ secrets.ECR_BACKEND }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          aws eks update-kubeconfig --name cluster --region us-east-1
           kustomize edit set image backend=$ECR_REGISTRY:$IMAGE_TAG
-          kustomize build | kubectl apply -f -
+          kustomize build | kubectl apply --validate=false -f -
